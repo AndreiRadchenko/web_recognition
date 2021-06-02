@@ -2,6 +2,11 @@
 
 FROM python:3.4-slim
 
+WORKDIR /data
+VOLUME /data
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+
 RUN apt-get -y update
 RUN apt-get install -y --fix-missing \
     build-essential \
@@ -33,6 +38,7 @@ RUN cd ~ && \
     cd  dlib/ && \
     python3 setup.py install --yes USE_AVX_INSTRUCTIONS
 
+EXPOSE 5001
 
 # The rest of this file just runs an example script.
 
@@ -42,10 +48,18 @@ RUN cd ~ && \
 #     pip3 install -r requirements.txt
 # RUN whatever_command_you_run_to_start_your_app
 
+#COPY . /root/face_recognition
+#RUN cd /root/face_recognition && \
+#    pip3 install -r requirements.txt && \
+#    python3 setup.py install
+
+#CMD cd /root/face_recognition/examples && \
+#    python3 recognize_faces_in_pictures.py
+
 COPY . /root/face_recognition
 RUN cd /root/face_recognition && \
     pip3 install -r requirements.txt && \
     python3 setup.py install
 
 CMD cd /root/face_recognition/examples && \
-    python3 recognize_faces_in_pictures.py
+    python3 testweb.py
