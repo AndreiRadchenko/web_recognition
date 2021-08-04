@@ -17,7 +17,7 @@
 # $ pip3 install flask
 
 import face_recognition
-from flask import Flask, jsonify, request, redirect
+from flask import Flask, jsonify, request, redirect, render_template
 import pickle
 import os
 import werkzeug
@@ -34,7 +34,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/test', methods=['GET', 'POST'])
 def upload_image():
     # Check if a valid image file was uploaded
     if request.method == 'POST':
@@ -51,17 +51,7 @@ def upload_image():
             return detect_faces_in_image(file)
 
     # If no valid image file was uploaded, show the file upload form:
-    return '''
-    <!doctype html>
-    <title>Is this a picture of our family?</title>
-    <h1>Upload a picture and see if it's a picture of our family!</h1>
-    <form method="POST" enctype="multipart/form-data">
-      <input type="file" name="file">
-      <input type="submit" value="Upload">
-    </form>
-    <p></p>
-    <a href='/add_samples'> Or add some samples here</a>
-    '''
+    return render_template("TestPage.html")
 
 
 def detect_faces_in_image (file_stream):
@@ -123,84 +113,170 @@ def detect_faces_in_image (file_stream):
 def encode_face():
     #os.system("python3 ../fr/encode_face.py")
     os.system("python3 encode_face.py")
-    return '''<p>completed</p>
-    <a href='/'>Return to the main page</a>
+    return '''
+    <head>
+        <title>Completed</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </head>
+    <body style="background-color: #111;
+    font-family: Tahoma, sans-serif;">
+
+        <p style="
+        font-size: 50px;
+        background-color:#222;
+        text-align: center;
+        color:#fff;
+        padding: 8px;
+        margin: 4px;">Completed</p>
+
+        <div style="text-align: center;">
+            <button style="
+            background-color: #555;
+            border: none;
+            color: #fff;
+            padding: 15px 0px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;" type="submit">
+                <a style="
+                text-decoration: none;
+                color: #fff;
+                padding-left: 32px;
+                padding-right: 32px;
+                padding-top: 15px;
+                padding-bottom: 15px;" href='/'>
+                    Return to the main page
+                </a>
+            </button>
+        </div>
+    </body>
     '''
 
-@app.route('/add_samples', methods=['GET', 'POST'])
+picPath = os.path.join("static")
+app.config["UPLOAD_FOLDER"] = picPath
+
+@app.route('/', methods=['GET', 'POST'])
 def add_samples():
 
     if request.method == 'POST':
         names = []
+        with open('names.txt', 'r') as f:
+            oldNames = f.read().split()
 
-        file = request.files['name1']
-        name = request.form['name11']
-        if file.filename == '':
-                pass
-        elif name != '':
-            names.append(name)
-            file.save(os.path.join('', name+'.jpg'))
-        
-        file = request.files['name2']
-        name = request.form['name22']
-        if file.filename == '':
-                pass
-        elif name != '':
-            names.append(name)
-            file.save(os.path.join('', name+'.jpg'))
+        file = request.files['filename1']
+        name = request.form['name1']
+        try:
+            if name != oldNames[0] and file.filename == '': #changing name leaving photo
+                names.append(name)
+            elif name == oldNames[0] and file.filename == '': #changing nothing
+                names.append(oldNames[0])
+            elif name == oldNames[0] and file.filename != '': #changing photo leaving name
+                names.append(oldNames[0])
+                file.save(os.path.join('static', name+'.jpg'))
+            elif name != oldNames[0] and file.filename != '': #changing photo changing name
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
+        except IndexError:
+            if name != '':
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
 
-        file = request.files['name3']
-        name = request.form['name33']
-        if file.filename == '':
-                pass
-        elif name != '':
-            names.append(name)
-            file.save(os.path.join('', name+'.jpg'))
+        file = request.files['filename2']
+        name = request.form['name2']
+        try:
+            if name != oldNames[1] and file.filename == '': #changing name leaving photo
+                names.append(name)
+            elif name == oldNames[1] and file.filename == '': #changing nothing
+                names.append(oldNames[1])
+            elif name == oldNames[1] and file.filename != '': #changing photo leaving name
+                names.append(oldNames[1])
+                file.save(os.path.join('static', name+'.jpg'))
+            elif name != oldNames[1] and file.filename != '': #changing photo changing name
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
+        except IndexError:
+            if name != '':
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
 
-        file = request.files['name4']
-        name = request.form['name44']
-        if file.filename == '':
-                pass
-        elif name != '':
-            names.append(name)
-            file.save(os.path.join('', name+'.jpg'))
+        file = request.files['filename3']
+        name = request.form['name3']
+        try:
+            if name != oldNames[2] and file.filename == '': #changing name leaving photo
+                names.append(name)
+            elif name == oldNames[2] and file.filename == '': #changing nothing
+                names.append(oldNames[2])
+            elif name == oldNames[2] and file.filename != '': #changing photo leaving name
+                names.append(oldNames[2])
+                file.save(os.path.join('static', name+'.jpg'))
+            elif name != oldNames[2] and file.filename != '': #changing photo changing name
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
+        except IndexError:
+            if name != '':
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
 
-        file = request.files['name5']
-        name = request.form['name55']
-        if file.filename == '':
-                pass
-        elif name != '':
-            names.append(name)
-            file.save(os.path.join('', name+'.jpg'))
+        file = request.files['filename4']
+        name = request.form['name4']
+        try:
+            if name != oldNames[3] and file.filename == '': #changing name leaving photo
+                names.append(name)
+            elif name == oldNames[3] and file.filename == '': #changing nothing
+                names.append(oldNames[3])
+            elif name == oldNames[3] and file.filename != '': #changing photo leaving name
+                names.append(oldNames[3])
+                file.save(os.path.join('static', name+'.jpg'))
+            elif name != oldNames[3] and file.filename != '': #changing photo changing name
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
+        except IndexError:
+            if name != '':
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
+
+        file = request.files['filename5']
+        name = request.form['name5']
+        try:
+            if name != oldNames[4] and file.filename == '': #changing name leaving photo
+                names.append(name)
+            elif name == oldNames[4] and file.filename == '': #changing nothing
+                names.append(oldNames[4])
+            elif name == oldNames[4] and file.filename != '': #changing photo leaving name
+                names.append(oldNames[4])
+                file.save(os.path.join('static', name+'.jpg'))
+            elif name != oldNames[4] and file.filename != '': #changing photo changing name
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
+        except IndexError:
+            if name != '':
+                names.append(name)
+                file.save(os.path.join('static', name+'.jpg'))
 
         with open('names.txt', 'w') as f:
             for i in range(len(names)):
                 f.write(str(names[i])+' ')
 
         return encode_face()
+    
+    with open('names.txt', 'r') as f:
+        oldNames = f.read().split()
 
-    return '''
-    <form method="POST" enctype="multipart/form-data">
-    <p>Add a photo №1 and a name:</p>
-        <input type="file" name="name1"> 
-        <input type="text" name="name11">
-    <p>Add a photo №2 and a name (or leave this field empty):</p>
-        <input type="file" name="name2"> 
-        <input type="text" name="name22">
-    <p>Add a photo №3 and a name (or leave this field empty):</p>
-        <input type="file" name="name3"> 
-        <input type="text" name="name33">
-    <p>Add a photo №4 and a name (or leave this field empty):</p>
-        <input type="file" name="name4">
-        <input type="text" name="name44">
-    <p>Add a photo №5 and a name (or leave this field empty):</p>
-        <input type="file" name="name5">
-        <input type="text" name="name55">
+    pic = []
+    prevNames = []
+    for i in range(len(oldNames)):
+        pic.append(os.path.join(app.config["UPLOAD_FOLDER"], oldNames[i]+".jpg"))
+        prevNames.append(oldNames[i])
+    for i in range(5 - len(pic)):
+        pic.append(os.path.join(app.config["UPLOAD_FOLDER"], "empty.png"))
+        prevNames.append("")
 
-        <input type="submit" value="Upload">
-    </form>
-
-    <a href='/'>Main page</a>'''
+    return render_template("AddSamples.html", usr_img1 = pic[0], usr_img2 = pic[1], usr_img3 = pic[2],
+     usr_img4 = pic[3], usr_img5 = pic[4], text1 = prevNames[0], text2 = prevNames[1],
+     text3 = prevNames[2], text4 = prevNames[3], text5 = prevNames[4])
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=True)

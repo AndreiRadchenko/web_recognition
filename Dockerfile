@@ -17,7 +17,7 @@ RUN apt-get install -y --fix-missing \
     curl \
     graphicsmagick \
     libgraphicsmagick1-dev \
-    libatlas-dev \
+    libatlas-base-dev \
     libavcodec-dev \
     libavformat-dev \
     libboost-all-dev \
@@ -28,8 +28,10 @@ RUN apt-get install -y --fix-missing \
     pkg-config \
     python3-dev \
     python3-numpy \
+    python3-setuptools\
     software-properties-common \
     zip \
+    python3-pip\
     && apt-get clean && rm -rf /tmp/* /var/tmp/*
 
 RUN cd ~ && \

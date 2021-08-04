@@ -8,27 +8,27 @@ f.close()
 all_face_encodings = {}
 
 try:
-    img1 = face_recognition.load_image_file(names[0]+".jpg")
+    img1 = face_recognition.load_image_file("static/"+names[0]+".jpg")
     all_face_encodings[names[0]] = face_recognition.face_encodings(img1)[0]
 except IndexError: pass
 
 try:
-    img2 = face_recognition.load_image_file(names[1]+".jpg")
+    img2 = face_recognition.load_image_file("static/"+names[1]+".jpg")
     all_face_encodings[names[1]] = face_recognition.face_encodings(img2)[0]
 except IndexError: pass
 
 try:
-    img3 = face_recognition.load_image_file(names[2]+".jpg")
+    img3 = face_recognition.load_image_file("static/"+names[2]+".jpg")
     all_face_encodings[names[2]] = face_recognition.face_encodings(img3)[0]
 except IndexError: pass
 
 try:
-    img4 = face_recognition.load_image_file(names[3]+".jpg")
+    img4 = face_recognition.load_image_file("static/"+names[3]+".jpg")
     all_face_encodings[names[3]] = face_recognition.face_encodings(img4)[0]
 except IndexError: pass
 
 try:
-    img5 = face_recognition.load_image_file(names[4]+".jpg")
+    img5 = face_recognition.load_image_file("static/"+names[4]+".jpg")
     all_face_encodings[names[4]] = face_recognition.face_encodings(img5)[0]
 except IndexError: pass
 
