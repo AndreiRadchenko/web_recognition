@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="/static/TestPage_style.css">
+        <script src="/static/TestPage_script.js"></script>
+    </head>
+    <body>
+        <header>
+            Test Page
+        </header>
+
+        <nav>
+            <button type="submit" class="buttons" id="mainPage"><a href="/">Samples Page</a></button>
+        </nav>
+        
+        <form method="POST" enctype="multipart/form-data">
+            <p>Upload a picture and see if it is a picture of our family!</p>
+            <br><img id="blah" src="/static/empty512px.png" alt=""></br>
+            <button type="button" class="buttons" id="selectButton">
+                <label for="imgInp">Select</label>
+            </button>
+            <input id="imgInp" type="file" name="file" accept="image/*">
+            <input class="buttons" type="submit" value="Upload" id="upload">
+        </form>
+    </body>
+</html>

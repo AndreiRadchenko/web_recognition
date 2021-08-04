@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Samples Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="/static/AddSamples_style.css">
+        <script src="/static/AddSamples_script.js"></script>
+    </head>
+
+    <body>
+        <header>
+            Samples Page
+        </header>
+        
+        <nav>
+            <button type="submit" class="buttons" id="testPage"><a href='/test'>Test Page</a></button>
+        </nav>
+        <div class="intro">
+            <hr>On this page you can edit photos and names which are uploaded to the server.</hr>
+            <hr>Press "Select" to select new photo or just edit name to change a name.</hr>
+            <hr>When you done, click "Upload"</hr>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+
+            <section>
+                <br><img src="{{usr_img1}}" alt="1st slot image" class="previousImg" id="img1"></br>
+                <input type="text" name="name1" value="{{text1}}" class="textwindow">
+                <button type="button" class="buttons">
+                    <label for="filename1">Select</label>
+                </button>
+                <input type="file" name="filename1" id="filename1" accept="image/*" class="inputfile">
+            </section>
+
+            <section>
+                <br><img src="{{usr_img2}}" alt="2nd slot image" class="previousImg" id="img2"></br>
+                <input type="text" name="name2" value="{{text2}}" class="textwindow">
+                <button type="button" class="buttons">
+                    <label for="filename2">Select</label>
+                </button>
+                <input type="file" name="filename2" id="filename2" accept="image/*" class="inputfile"> 
+            </section>
+
+            <section>
+                <br><img src="{{usr_img3}}" alt="3rd slot image" class="previousImg" id="img3"></br>
+                <input type="text" name="name3" value="{{text3}}" class="textwindow">
+                <button type="button" class="buttons">
+                    <label for="filename3">Select</label>
+                </button>
+                <input type="file" name="filename3" id="filename3" accept="image/*" class="inputfile"> 
+            </section>
+
+            <section>
+                <br><img src="{{usr_img4}}" alt="4th slot image" class="previousImg" id="img4"></br>
+                <input type="text" name="name4" value="{{text4}}" class="textwindow">
+                <button type="button" class="buttons">
+                    <label for="filename4">Select</label>
+                </button>
+                <input type="file" name="filename4" id="filename4" accept="image/*" class="inputfile"> 
+            </section>
+
+            <section>
+                <br><img src="{{usr_img5}}" alt="5th slot image" class="previousImg" id="img5"></br>
+                <input type="text" name="name5" value="{{text5}}" class="textwindow">
+                <button type="button" class="buttons">
+                    <label for="filename5">Select</label>
+                </button>
+                <input type="file" name="filename5" id="filename5" accept="image/*" class="inputfile"> 
+            </section>
+
+            <input type="submit" value="Upload" class="buttons" id="upload">
+        </form>
+
+    </body>
+</html>
